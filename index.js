@@ -10,13 +10,13 @@ bot.on("ready", () => {
   console.info(`Logged in as ${bot.user.tag}!`);
 });
 
-const exampleEmbed = (title, result) =>
+const articleEmbed = (title, result) =>
   new Discord.MessageEmbed()
     .setColor("#0099ff")
     .setTitle(title)
     .setURL(`https://developer.mozilla.org/en-US/docs/${result.slug}`)
     .setDescription(stripHtml(result.excerpt))
-    .setImage(
+    .setThumbnail(
       "https://developer.mozilla.org/static/img/opengraph-logo.72382e605ce3.png"
     )
     .setTimestamp();
@@ -38,7 +38,7 @@ bot.on("message", async (msg) => {
       });
       try {
         msg.channel.send(
-          exampleEmbed(
+          articleEmbed(
             `You wanted access ${focus ? topic : ""} docs on ${
               focus ? focus : topic
             }`,
@@ -48,7 +48,7 @@ bot.on("message", async (msg) => {
       } catch (err) {
         console.log(err);
       }
-    } else {
+    } else if(msg.content.startsWith("get-mdn --help")) {
       msg.reply(`
         You need to specify at least the topic you need such as;
         ${`>>> 
